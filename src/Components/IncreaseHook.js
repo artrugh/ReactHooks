@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useRef, useEffect} from 'react';
 
 
 // First Example: state nest a number
@@ -11,17 +11,27 @@ import React, { useState} from 'react';
 // the useState declares the default or initial value. Usually it is 0, or empty object
 
 
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
 const IncreaseHook = () => {
 
   const [count, setCount] = useState(0) 
+  const prevCount = usePrevious(count);
 
   return (
     <div className="App">
       <h1>Testing Hooks setting the state as a primitive value</h1>
+      number:{count} prenumber: {prevCount}
       <header className="App-header">
         <button onClick = {() => setCount( count + 1)}>increment</button>
         <button onClick = {() => setCount( count - 1)}>dicrement</button> 
-        {count}
+        
       </header>
     </div>
   );
